@@ -1,0 +1,56 @@
+{
+  "ollama": {
+    "endpoint": "/ollama/api/generate",
+    "requestFormat": "ollama",
+    "models": [
+      "deepseek-coder:6.7b",
+      "phi3",
+      "llama3.1:8b",
+      "qwen2.5-coder:7b"
+    ],
+    "options": {
+      "temperature": 0.3
+    }
+  },
+  "localai": {
+    "endpoint": "/api/generate",
+    "requestFormat": "standard",
+    "models": [
+      "phi3"
+    ],
+    "options": {
+      "temperature": 0.3
+    }
+  },
+  "openai": {
+    "endpoint": "/api/generate",
+    "requestFormat": "standard",
+    "models": [
+      "gpt-dummy-1",
+      "gpt-dummy-2"
+    ],
+    "options": {
+      "temperature": 0.7
+    }
+  },
+  "gemini": {
+    "endpoint": "/api/generate",
+    "requestFormat": "standard",
+    "models": [
+      "gemini-dummy-1"
+    ],
+    "options": {
+      "temperature": 0.7
+    }
+  },
+  "anthropic": {
+    "endpoint": "/api/generate",
+    "requestFormat": "standard",
+    "models": [
+      "claude-dummy-1"
+    ],
+    "options": {
+      "temperature": 0.7
+    }
+  }
+}

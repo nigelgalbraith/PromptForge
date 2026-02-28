@@ -1,0 +1,20 @@
+{
+  "mode": "llm",
+  "defaults": { "provider": "ollama", "model": "llama3.1:8b" },
+  "providers": {
+    "ollama": {
+      "endpoint": "/api/generate",
+      "requestFormat": "standard",
+      "options": { "temperature": 0.2 }
+    }
+  },
+  "prompt": "Evaluate the proposed automation script for failure modes and safety checks. Provide explicit guardrails before execution.",
+  "form": { "script_outline": "Fetch prod secrets, update DB schema, restart all services" },
+  "options": [
+    { "title": "Guardrails", "slug": "guardrails", "items": [
+      { "label": "Dry run", "selected": true },
+      { "label": "Rollback plan", "selected": true }
+    ] }
+  ],
+  "snippets": []
+}

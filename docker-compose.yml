@@ -1,0 +1,106 @@
+services:
+  web:
+    build: ./apps/web
+    ports:
+      - "3000:80"
+    depends_on:
+      api:
+        condition: service_started
+
+  api:
+    build: ./apps/api
+    ports:
+      - "4000:4000"
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+      - LOCALAI_BASE_URL=http://localai:8080
+    volumes:
+      - ./data/profiles:/data/profiles
+    depends_on:
+      ollama-init:
+        condition: service_completed_successfully
+      localai:
+        condition: service_started
+
+  ollama:
+    image: ollama/ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    healthcheck:
+      test: ["CMD-SHELL", "ollama list >/dev/null 2>&1 || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
+
+  ollama-init:
+    image: ollama/ollama:latest
+    depends_on:
+      ollama:
+        condition: service_healthy
+    environment:
+      - OLLAMA_HOST=http://ollama:11434
+    volumes:
+      - ./scripts/pull_ollama_models.sh:/pull_ollama_models.sh:ro
+    entrypoint: ["/bin/bash", "/pull_ollama_models.sh"]
+    restart: on-failure
+
+  openwebui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: openwebui
+    ports:
+      - "3001:8080"
+    environment:
+      - OLLAMA_BASE_URL=http://ollama:11434
+    volumes:
+      - openwebui_data:/app/backend/data
+    depends_on:
+      ollama-init:
+        condition: service_completed_successfully
+
+  localai-init:
+    image: debian:bookworm-slim
+    volumes:
+      - localai_models:/models
+      - ./scripts/pull_localai_models.sh:/pull_localai_models.sh:ro
+    entrypoint:
+      - /bin/bash
+      - -lc
+      - |
+        apt-get update && apt-get install -y --no-install-recommends wget ca-certificates && rm -rf /var/lib/apt/lists/*
+        exec /bin/bash /pull_localai_models.sh
+    restart: on-failure
+
+  localai:
+    image: localai/localai:latest-cpu
+    container_name: localai
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    environment:
+      - DEBUG=true
+    volumes:
+      - localai_models:/models
+    depends_on:
+      localai-init:
+        condition: service_completed_successfully
+
+  piper:
+    image: artibex/piper-http:latest
+    environment:
+      - MODEL_DOWNLOAD_LINK=https://huggingface.co/rhasspy/piper-voices/resolve/v1.0.0/en/en_US/amy/low/en_US-amy-low.onnx
+    ports:
+      - "5000:5000"
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://localhost:5000/docs || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+
+volumes:
+  ollama_data:
+  localai_models:
+  openwebui_data:

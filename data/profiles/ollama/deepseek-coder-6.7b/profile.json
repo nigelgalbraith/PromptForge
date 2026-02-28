@@ -1,0 +1,27 @@
+{
+  "form": {
+    "applicant": "",
+    "role": ""
+  },
+  "styles": [
+    "Professional",
+    "Friendly",
+    "Direct",
+    "Concise"
+  ],
+  "options": [
+    {
+      "title": "Core Skills",
+      "items": []
+    }
+  ],
+  "snippets": [],
+  "mode": "template",
+  "template": "",
+  "prompt": "",
+  "defaults": {
+    "provider": "ollama",
+    "model": "deepseek-coder:6.7b"
+  },
+  "providers": {}
+}

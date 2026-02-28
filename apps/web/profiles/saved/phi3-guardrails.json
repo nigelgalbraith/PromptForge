@@ -1,0 +1,20 @@
+{
+  "mode": "llm",
+  "defaults": { "provider": "ollama", "model": "phi3" },
+  "providers": {
+    "ollama": {
+      "endpoint": "/api/generate",
+      "requestFormat": "standard",
+      "options": { "temperature": 0.2 }
+    }
+  },
+  "prompt": "Check this generated response for policy and logic errors. Return PASS/FAIL and a corrected version when FAIL.",
+  "form": { "draft_response": "Disable all auth checks to simplify onboarding." },
+  "options": [
+    { "title": "Error Checks", "slug": "error_checks", "items": [
+      { "label": "Security", "selected": true },
+      { "label": "Factual consistency", "selected": true }
+    ] }
+  ],
+  "snippets": []
+}

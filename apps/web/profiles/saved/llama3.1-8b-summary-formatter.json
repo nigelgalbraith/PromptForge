@@ -1,0 +1,20 @@
+{
+  "mode": "llm",
+  "defaults": { "provider": "ollama", "model": "llama3.1:8b" },
+  "providers": {
+    "ollama": {
+      "endpoint": "/api/generate",
+      "requestFormat": "standard",
+      "options": { "temperature": 0.3 }
+    }
+  },
+  "prompt": "Turn the raw update text into a structured summary: Highlights, Blockers, Decisions, Follow-ups.",
+  "form": { "update_text": "Completed API refactor, blocked on staging cert renewal, approved rollout window for Tuesday." },
+  "options": [
+    { "title": "Output", "slug": "output", "items": [
+      { "label": "Structured sections", "selected": true },
+      { "label": "Short bullets", "selected": true }
+    ] }
+  ],
+  "snippets": []
+}

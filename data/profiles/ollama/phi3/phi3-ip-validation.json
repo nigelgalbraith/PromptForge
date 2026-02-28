@@ -1,0 +1,20 @@
+{
+  "mode": "llm",
+  "defaults": { "provider": "ollama", "model": "phi3" },
+  "providers": {
+    "ollama": {
+      "endpoint": "/api/generate",
+      "requestFormat": "standard",
+      "options": { "temperature": 0.3 }
+    }
+  },
+  "prompt": "Validate each IP in the dataset and return a table with: input, classification, reason.",
+  "form": { "dataset": "10.0.0.1, 10.0.0.999, ::1" },
+  "options": [
+    { "title": "Validation", "slug": "validation", "items": [
+      { "label": "IPv4", "selected": true },
+      { "label": "IPv6", "selected": true }
+    ] }
+  ],
+  "snippets": []
+}

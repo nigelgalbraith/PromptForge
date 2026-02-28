@@ -1,0 +1,20 @@
+{
+  "mode": "llm",
+  "defaults": { "provider": "ollama", "model": "phi3" },
+  "providers": {
+    "ollama": {
+      "endpoint": "/api/generate",
+      "requestFormat": "standard",
+      "options": { "temperature": 0.3 }
+    }
+  },
+  "prompt": "Summarize the log excerpt into: Incident, Impact, Root Cause, Mitigation. Keep output concise.",
+  "form": { "log_excerpt": "Service timeout spikes after config rollout; rollback restored latency." },
+  "options": [
+    { "title": "Format", "slug": "format", "items": [
+      { "label": "Headings", "selected": true },
+      { "label": "Concise", "selected": true }
+    ] }
+  ],
+  "snippets": []
+}
