@@ -1,11 +1,9 @@
 import { notifyTicker } from '../utils/ticker.js';
-
 const GENERATE_DOT_INTERVAL = 350;
 const FLASH_AUTOHIDE_MS = 1500;
 const DEFAULT_API_URL = '/api/generate';
 const MUSTACHE = /\{\{\s*(\w+)\s*\}\}/g;
 const MAX_ERROR_TEXT_LEN = 320;
-
 function trimErrorText(raw) {
   const text = String(raw || '').trim();
   if (!text) return '';
@@ -66,6 +64,7 @@ async function generateWithApi(params) {
   return String(outputText || '').trim();
 }
 
+
 /** Gets get error message. */
 function getErrorMessage(error) {
   const msg = String(error && error.message ? error.message : error || '').trim();
@@ -75,8 +74,6 @@ function getErrorMessage(error) {
 
 
 function buildPrintHTML(text) {
-
-
   function esc(s) {
     return String(s || '')
       .replace(/&/g, '&amp;')
@@ -177,6 +174,9 @@ function buildCtx(formRoot, checklistsRoot, snippetsRoot) {
 }
 
 
+/**
+ * buildCompiledPrompt.
+ */
 export function buildCompiledPrompt(params) {
   const {
     profile,
@@ -241,9 +241,6 @@ async function generateText(params) {
 }
 
 
-
-
-
 function hasProfile(state, stateKey) {
   if (!state) return false;
   if (typeof state.has === 'function') return !!state.has(stateKey);
@@ -252,9 +249,9 @@ function hasProfile(state, stateKey) {
 }
 
 
-
-
-
+/**
+ * buildGeneratorPreviewPane.
+ */
 export function buildGeneratorPreviewPane(options = {}) {
   const {
     state = null,
@@ -308,9 +305,6 @@ export function buildGeneratorPreviewPane(options = {}) {
   section.appendChild(flashDiv);
   section.appendChild(text);
   node.appendChild(section);
-
-
-
   function setGenerateEnabled() {
     btnGen.disabled = !hasProfile(state, stateKey);
   }
@@ -318,16 +312,10 @@ export function buildGeneratorPreviewPane(options = {}) {
   let isGenerating = false;
   let dotTimer = null;
   let hideTimer = null;
-
-
-
   function clearPreviewOnProfileChange() {
     if (isGenerating) return;
     text.textContent = '';
   }
-
-
-
   function flash(msg, autoHide) {
     flashDiv.textContent = msg || '';
     flashDiv.classList.add('show');
@@ -342,10 +330,7 @@ export function buildGeneratorPreviewPane(options = {}) {
       }, FLASH_AUTOHIDE_MS);
     }
   }
-
 /** Starts start dots. */
-
-
   function startDots() {
     let dots = 0;
     flash('Generating', false);
@@ -358,10 +343,7 @@ export function buildGeneratorPreviewPane(options = {}) {
       flash(`Generating${'.'.repeat(dots)}`, false);
     }, GENERATE_DOT_INTERVAL);
   }
-
 /** Stops stop dots. */
-
-
   function stopDots(finalMsg) {
     if (dotTimer) {
       clearInterval(dotTimer);
@@ -369,9 +351,6 @@ export function buildGeneratorPreviewPane(options = {}) {
     }
     flash(finalMsg || '', true);
   }
-
-
-
   function onGenerateClick() {
     if (!hasProfile(state, stateKey)) {
       flash('Load a profile first', true);
@@ -418,9 +397,6 @@ export function buildGeneratorPreviewPane(options = {}) {
         isGenerating = false;
       });
   }
-
-
-
   function onCopyClick() {
     const txt = text.textContent || '';
     if (!txt) {
@@ -440,9 +416,6 @@ export function buildGeneratorPreviewPane(options = {}) {
       flash('Clipboard not available', true);
     }
   }
-
-
-
   function onPdfClick() {
     const txt = text.textContent || '';
     const html = buildPrintHTML(txt);
@@ -488,3 +461,4 @@ export function buildGeneratorPreviewPane(options = {}) {
     },
   };
 }
+

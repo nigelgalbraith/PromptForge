@@ -1,8 +1,4 @@
 import { DEFAULT_STATE_KEY, ensureProfileState } from '../core/profileState.js';
-
-
-
-
 function syncFromDOM(groupsWrap, profileState, state, stateKey) {
   const result = [];
   const groups = groupsWrap.querySelectorAll('.builder-group');
@@ -19,9 +15,6 @@ function syncFromDOM(groupsWrap, profileState, state, stateKey) {
   profileState.options = result;
   state.set(stateKey, profileState);
 }
-
-
-
 
 
 function itemRow(groupsWrap, profileState, state, stateKey, value, markLocalWrite) {
@@ -47,9 +40,6 @@ function itemRow(groupsWrap, profileState, state, stateKey, value, markLocalWrit
   row.appendChild(btnRemove);
   return row;
 }
-
-
-
 
 
 function addGroup(groupsWrap, profileState, state, stateKey, title, items, markLocalWrite) {
@@ -95,9 +85,6 @@ function addGroup(groupsWrap, profileState, state, stateKey, title, items, markL
 }
 
 
-
-
-
 function render(node, state, stateKey, opts, markLocalWrite) {
   const titleText = opts.title || 'Checklist Groups';
   const defaultGroupTitle = opts.defaultGroup || 'Core Skills';
@@ -135,9 +122,9 @@ function render(node, state, stateKey, opts, markLocalWrite) {
 }
 
 
-
-
-
+/**
+ * buildBuilderChecklistPane.
+ */
 export function buildBuilderChecklistPane(options = {}) {
   const {
     state,
@@ -156,9 +143,6 @@ export function buildBuilderChecklistPane(options = {}) {
     defaultGroup,
   };
   let ignoreNext = false;
-
-
-
   function markLocalWrite() {
     ignoreNext = true;
     setTimeout(() => {
@@ -180,3 +164,4 @@ export function buildBuilderChecklistPane(options = {}) {
     },
   };
 }
+

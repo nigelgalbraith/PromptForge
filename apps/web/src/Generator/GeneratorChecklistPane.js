@@ -1,8 +1,4 @@
 const FLASH_DURATION = 1200;
-
-
-
-
 function toSlug(title) {
   return String(title || '')
     .trim()
@@ -10,9 +6,6 @@ function toSlug(title) {
     .replace(/[^a-z0-9]+/g, '_')
     .replace(/^_+|_+$/g, '');
 }
-
-
-
 
 
 function flash(flashDiv, msg, timeout) {
@@ -23,9 +16,6 @@ function flash(flashDiv, msg, timeout) {
     flashDiv.classList.remove('show');
   }, timeout || FLASH_DURATION);
 }
-
-
-
 
 
 function renderOneGroup(group, container, defaultTitle) {
@@ -51,9 +41,6 @@ function renderOneGroup(group, container, defaultTitle) {
   const flashDiv = document.createElement('div');
   flashDiv.className = 'flash';
   const slug = toSlug(group.title || defaultTitle || 'options');
-
-
-
   function renderList() {
     list.innerHTML = '';
     (group.items || []).forEach((item) => {
@@ -97,9 +84,6 @@ function renderOneGroup(group, container, defaultTitle) {
 }
 
 
-
-
-
 function renderAll(node, profile, defaultTitle) {
   node.innerHTML = '';
   const groups = Array.isArray(profile && profile.options) ? profile.options : [];
@@ -119,19 +103,16 @@ function renderAll(node, profile, defaultTitle) {
 }
 
 
-
 /** Gets get profile. */
-
-
 function getProfile(state, stateKey) {
   if (!state || typeof state.get !== 'function') return null;
   return state.get(stateKey);
 }
 
 
-
-
-
+/**
+ * buildGeneratorChecklistPane.
+ */
 export function buildGeneratorChecklistPane(options = {}) {
   const {
     state = null,
@@ -141,9 +122,6 @@ export function buildGeneratorChecklistPane(options = {}) {
   } = options;
   const node = document.createElement('div');
   node.className = 'pane-generator-checklists';
-
-
-
   function rerenderFromState() {
     const profile = getProfile(state, stateKey);
     if (!profile) {
@@ -166,3 +144,4 @@ export function buildGeneratorChecklistPane(options = {}) {
     },
   };
 }
+

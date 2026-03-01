@@ -1,10 +1,8 @@
 import { notifyTicker } from '../utils/ticker.js';
 import { button, clear, el } from '../utils/dom.js';
 import { normalizeProfile } from '../core/profileState.js';
-
 const DEFAULT_STATE_KEY = 'TEXT_PROFILE';
 const FLASH_DURATION_MS = 5000;
-
 function flash(flashEl, msg) {
   flashEl.textContent = msg || '';
   flashEl.classList.add('show');
@@ -13,6 +11,7 @@ function flash(flashEl, msg) {
     flashEl.textContent = '';
   }, FLASH_DURATION_MS);
 }
+
 
 function setSharedState(state, stateKey, setState, profile) {
   if (typeof setState === 'function') {
@@ -23,6 +22,7 @@ function setSharedState(state, stateKey, setState, profile) {
     state.set(stateKey, profile);
   }
 }
+
 
 async function fetchProfilesList() {
   const response = await fetch('/api/profiles/list', {
@@ -37,6 +37,7 @@ async function fetchProfilesList() {
     .filter((name) => name.endsWith('.json'));
 }
 
+
 async function fetchProfileByName(name) {
   const response = await fetch(`/api/profiles/${encodeURIComponent(name)}`, {
     method: 'GET',
@@ -46,6 +47,10 @@ async function fetchProfileByName(name) {
   return response.json();
 }
 
+
+/**
+ * buildProfileLoaderPane.
+ */
 export function buildProfileLoaderPane(options = {}) {
   const {
     title = 'Profiles',
@@ -54,10 +59,8 @@ export function buildProfileLoaderPane(options = {}) {
     setState,
     tickerController = null,
   } = options;
-
   const node = el('section', { className: 'pane pane--profile-loader' });
   clear(node);
-
   const h2 = el('h2', { className: 'pane-title', text: title });
   const group = el('div', { className: 'group' });
   const aiLabel = el('label', { text: 'AI' });
@@ -70,30 +73,24 @@ export function buildProfileLoaderPane(options = {}) {
   const btnLoad = button({ className: 'primary', text: 'Load Profile' });
   const btnRefresh = button({ text: 'Refresh' });
   const flashDiv = el('div', { className: 'flash' });
-
   group.appendChild(aiLabel);
   group.appendChild(aiSelect);
   group.appendChild(modelLabel);
   group.appendChild(modelSelect);
   group.appendChild(profileLabel);
   group.appendChild(profileSelect);
-
   actions.appendChild(btnLoad);
   actions.appendChild(btnRefresh);
-
   node.appendChild(h2);
   node.appendChild(group);
   node.appendChild(actions);
   node.appendChild(flashDiv);
-
   let destroyed = false;
   let tree = Object.create(null);
-
   function showMessage(msg) {
     flash(flashDiv, msg);
     notifyTicker(tickerController, msg, FLASH_DURATION_MS);
   }
-
   function buildTree(list) {
     const next = Object.create(null);
     list.forEach((entry) => {
@@ -112,23 +109,19 @@ export function buildProfileLoaderPane(options = {}) {
     });
     return next;
   }
-
   function fillSelect(selectNode, values) {
     clear(selectNode);
     values.forEach((value) => {
       selectNode.appendChild(el('option', { text: value, attrs: { value } }));
     });
   }
-
   function renderList(list, opts = {}) {
     const { quiet = false } = opts;
     tree = buildTree(Array.isArray(list) ? list : []);
-
     const aiNames = Object.keys(tree).sort((a, b) => a.localeCompare(b));
     clear(aiSelect);
     clear(modelSelect);
     clear(profileSelect);
-
     if (!aiNames.length) {
       const emptyOpt = el('option', { text: 'No saved profiles', attrs: { value: '' } });
       aiSelect.appendChild(emptyOpt);
@@ -141,23 +134,18 @@ export function buildProfileLoaderPane(options = {}) {
       if (!quiet) showMessage('No saved profiles');
       return;
     }
-
     fillSelect(aiSelect, aiNames);
-
     const selectedAI = String(aiSelect.value || aiNames[0] || '');
     const models = Object.keys(tree[selectedAI] || {}).sort((a, b) => a.localeCompare(b));
     fillSelect(modelSelect, models);
-
     const selectedModel = String(modelSelect.value || models[0] || '');
     const profiles = ((tree[selectedAI] || Object.create(null))[selectedModel] || []).slice();
     fillSelect(profileSelect, profiles);
-
     aiSelect.disabled = false;
     modelSelect.disabled = !models.length;
     profileSelect.disabled = !profiles.length;
     btnLoad.disabled = !selectedAI || !selectedModel || !profiles.length;
   }
-
   function updateModelsForAI() {
     const selectedAI = String(aiSelect.value || '').trim();
     const models = Object.keys(tree[selectedAI] || {}).sort((a, b) => a.localeCompare(b));
@@ -165,7 +153,6 @@ export function buildProfileLoaderPane(options = {}) {
     modelSelect.disabled = !models.length;
     updateProfilesForModel();
   }
-
   function updateProfilesForModel() {
     const selectedAI = String(aiSelect.value || '').trim();
     const selectedModel = String(modelSelect.value || '').trim();
@@ -174,7 +161,6 @@ export function buildProfileLoaderPane(options = {}) {
     profileSelect.disabled = !profiles.length;
     btnLoad.disabled = !selectedAI || !selectedModel || !profiles.length;
   }
-
   async function refreshProfiles() {
     try {
       const list = await fetchProfilesList();
@@ -186,7 +172,6 @@ export function buildProfileLoaderPane(options = {}) {
       showMessage('Failed to load profiles');
     }
   }
-
   async function loadSelectedProfile() {
     const ai = String(aiSelect.value || '').trim();
     const model = String(modelSelect.value || '').trim();
@@ -204,13 +189,11 @@ export function buildProfileLoaderPane(options = {}) {
       showMessage('Failed to load profile');
     }
   }
-
   btnLoad.addEventListener('click', loadSelectedProfile);
   btnRefresh.addEventListener('click', refreshProfiles);
   aiSelect.addEventListener('change', updateModelsForAI);
   modelSelect.addEventListener('change', updateProfilesForModel);
   refreshProfiles();
-
   return {
     node,
     destroy() {
@@ -222,3 +205,4 @@ export function buildProfileLoaderPane(options = {}) {
     },
   };
 }
+

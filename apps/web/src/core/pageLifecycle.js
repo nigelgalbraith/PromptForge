@@ -1,8 +1,5 @@
 // Create a page-scoped lifecycle manager.
-
 /** Creates create page lifecycle. */
-
-
 export function createPageLifecycle() {
   const destroyFns = [];
   return {
@@ -22,3 +19,4 @@ export function createPageLifecycle() {
     },
   };
 }
+

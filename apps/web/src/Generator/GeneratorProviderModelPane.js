@@ -1,8 +1,5 @@
 const DEFAULT_PROVIDER = 'ollama';
 const DEFAULT_MODEL_TEXT = '(none)';
-
-
-
 function resolveProviderModel(profile) {
   const defaults = profile && typeof profile === 'object' && profile.defaults && typeof profile.defaults === 'object'
     ? profile.defaults
@@ -12,11 +9,10 @@ function resolveProviderModel(profile) {
   const model = modelRaw || DEFAULT_MODEL_TEXT;
   return { provider, model };
 }
-
 // Build a read-only pane showing active provider/model from profile defaults.
-
-
-
+/**
+ * buildGeneratorProviderModelPane.
+ */
 export function buildGeneratorProviderModelPane(options = {}) {
   const {
     state = null,
@@ -36,9 +32,6 @@ export function buildGeneratorProviderModelPane(options = {}) {
   section.appendChild(h2);
   section.appendChild(line);
   node.appendChild(section);
-
-
-
   function render() {
     const profile = state && typeof state.get === 'function'
       ? state.get(stateKey) || {}
@@ -60,3 +53,4 @@ export function buildGeneratorProviderModelPane(options = {}) {
     },
   };
 }
+

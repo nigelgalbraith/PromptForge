@@ -1,15 +1,8 @@
 const THEME_KEY = 'theme';
 const DEFAULT_THEME = 'dark';
-
-
-
-
 function normalizeTheme(value) {
   return value === 'light' ? 'light' : 'dark';
 }
-
-
-
 
 
 function readSavedTheme() {
@@ -22,9 +15,6 @@ function readSavedTheme() {
 }
 
 
-
-
-
 function writeSavedTheme(theme) {
   try {
     localStorage.setItem(THEME_KEY, normalizeTheme(theme));
@@ -33,26 +23,20 @@ function writeSavedTheme(theme) {
 }
 
 
-
-
-
 function setDocumentTheme(theme) {
   document.documentElement.dataset.theme = normalizeTheme(theme);
 }
 
 
-
-
-
+/**
+ * applySavedTheme.
+ */
 export function applySavedTheme() {
   setDocumentTheme(readSavedTheme());
 }
 
 
-
 /** Initializes init theme toggle. */
-
-
 export function initThemeToggle() {
   const button = document.querySelector('button.theme-toggle');
   if (!button) return;
@@ -72,3 +56,4 @@ export function initThemeToggle() {
     syncAriaPressed();
   });
 }
+

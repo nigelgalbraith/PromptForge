@@ -14,11 +14,11 @@ import { createEventBus } from '../core/eventBus.js';
 import { createPageLifecycle } from '../core/pageLifecycle.js';
 import { applySavedTheme, initThemeToggle } from '../utils/theme.js';
 import '../../snippets/intro.js';
-
 const PROFILE_STATE_KEY = 'TEXT_PROFILE';
-
 let pageLifecycle = null;
-
+/**
+ * destroyPage.
+ */
 export function destroyPage() {
   if (!pageLifecycle) return;
   pageLifecycle.destroy();
@@ -64,12 +64,10 @@ export function initPage() {
       }
     },
   };
-
   // ---- API Health Pane ----
   const apiHealthPane = buildApiHealthPane({ healthUrl: '/api/', events });
   main.appendChild(apiHealthPane.node);
   pageLifecycle.add(() => apiHealthPane.destroy());
-
   // ---- Status Ticker Pane ----
   const tickerPane = buildStatusTickerPane({
     messagesUrl: 'profiles/messages.json',
@@ -80,13 +78,11 @@ export function initPage() {
   });
   main.appendChild(tickerPane.node);
   pageLifecycle.add(() => tickerPane.destroy());
-
   // ---- Intro Pane ----
   const introPane = buildIntroPane({ introKey: 'main' });
   introPane.node.classList.add('intro-text');
   main.appendChild(introPane.node);
   pageLifecycle.add(() => introPane.destroy());
-
   // ---- Profile Loader Pane ----
   const profileLoaderPane = buildProfileLoaderPane({
     title: 'Profiles',
@@ -96,7 +92,6 @@ export function initPage() {
   });
   main.appendChild(profileLoaderPane.node);
   pageLifecycle.add(() => profileLoaderPane.destroy());
-
   // ---- Generator Form Pane ----
   const generatorFormPane = buildGeneratorFormPane({
     state: sharedState,
@@ -107,7 +102,6 @@ export function initPage() {
   });
   main.appendChild(generatorFormPane.node);
   pageLifecycle.add(() => generatorFormPane.destroy());
-
   // ---- Generation Target Pane ----
   const generatorProviderModelPane = buildGeneratorProviderModelPane({
     state: sharedState,
@@ -117,7 +111,6 @@ export function initPage() {
   });
   main.appendChild(generatorProviderModelPane.node);
   pageLifecycle.add(() => generatorProviderModelPane.destroy());
-
   // ---- Generator Checklist Pane ----
   const generatorChecklistPane = buildGeneratorChecklistPane({
     state: sharedState,
@@ -127,7 +120,6 @@ export function initPage() {
   });
   main.appendChild(generatorChecklistPane.node);
   pageLifecycle.add(() => generatorChecklistPane.destroy());
-
   // ---- Generator Snippets Pane ----
   const generatorSnippetsPane = buildGeneratorSnippetsPane({
     state: sharedState,
@@ -137,7 +129,6 @@ export function initPage() {
   });
   main.appendChild(generatorSnippetsPane.node);
   pageLifecycle.add(() => generatorSnippetsPane.destroy());
-
   // ---- Compiled Prompt Pane ----
   const generatorCompiledPromptPane = buildGeneratorCompiledPromptPane({
     state: sharedState,
@@ -151,7 +142,6 @@ export function initPage() {
   });
   main.appendChild(generatorCompiledPromptPane.node);
   pageLifecycle.add(() => generatorCompiledPromptPane.destroy());
-
   // ---- Preview Pane ----
   const generatorPreviewPane = buildGeneratorPreviewPane({
     state: sharedState,
@@ -170,7 +160,6 @@ export function initPage() {
   });
   main.appendChild(generatorPreviewPane.node);
   pageLifecycle.add(() => generatorPreviewPane.destroy());
-
   // ---- Voice Pane ----
   const previewTextNode = generatorPreviewPane.node.querySelector('#generator-text');
   const generatorPiperPane = buildGeneratorPiperPane({
@@ -182,8 +171,7 @@ export function initPage() {
   });
   main.appendChild(generatorPiperPane.node);
   pageLifecycle.add(() => generatorPiperPane.destroy());
-
   initThemeToggle();
 }
-
 initPage();
+

@@ -1,9 +1,7 @@
 import { notifyTicker } from '../utils/ticker.js';
 import { button, clear, el } from '../utils/dom.js';
-
 const FLASH_DURATION_MS = 5000;
 const DEFAULT_STATE_KEY = 'TEXT_PROFILE';
-
 function flash(flashEl, msg) {
   flashEl.textContent = msg || '';
   flashEl.classList.add('show');
@@ -47,6 +45,7 @@ async function saveProfileToServer(obj, filename, ai, model) {
   return response.json();
 }
 
+
 function normalizeFilename(raw) {
   const base = String(raw || '').trim();
   if (!base) return '';
@@ -54,12 +53,14 @@ function normalizeFilename(raw) {
   return `${base}.json`;
 }
 
+
 function toSafeSegment(raw) {
   const s = String(raw || '').trim();
   if (!s) return '';
   const normalized = s.replace(/[^a-zA-Z0-9._-]+/g, '-').replace(/-+/g, '-').replace(/^-+|-+$/g, '');
   return normalized;
 }
+
 
 async function onExportClick(config) {
   const {
@@ -121,6 +122,9 @@ async function onExportClick(config) {
 }
 
 
+/**
+ * buildExportPane.
+ */
 export function buildExportPane(options = {}) {
   const {
     title = 'Export',
@@ -180,3 +184,4 @@ export function buildExportPane(options = {}) {
     },
   };
 }
+

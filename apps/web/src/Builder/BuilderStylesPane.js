@@ -1,19 +1,11 @@
 import { DEFAULT_STATE_KEY, ensureProfileState } from '../core/profileState.js';
 import { parseCsvOrArray } from '../utils/parse.js';
-
 const FALLBACK_STYLES = ['Professional', 'Friendly', 'Direct', 'Concise'];
-
-
-
-
 function setStyles(state, stateKey, styles) {
   const st = ensureProfileState(state, stateKey);
   st.styles = Array.isArray(styles) ? styles : [];
   state.set(stateKey, st);
 }
-
-
-
 
 
 function render(node, state, cfg, markLocalWrite) {
@@ -36,25 +28,16 @@ function render(node, state, cfg, markLocalWrite) {
   section.appendChild(rowsWrap);
   section.appendChild(actions);
   node.appendChild(section);
-
-
-
   function readStylesFromDOM() {
     const inputs = rowsWrap.querySelectorAll('input[data-role="style"]');
     return Array.prototype.map
       .call(inputs, (i) => String(i.value || '').trim())
       .filter(Boolean);
   }
-
-
-
   function commitDOMToState() {
     markLocalWrite();
     setStyles(state, cfg.stateKey, readStylesFromDOM());
   }
-
-
-
   function addStyleRow(value) {
     const row = document.createElement('div');
     row.className = 'group builder-style-row';
@@ -94,9 +77,9 @@ function render(node, state, cfg, markLocalWrite) {
 }
 
 
-
-
-
+/**
+ * buildBuilderStylesPane.
+ */
 export function buildBuilderStylesPane(options = {}) {
   const {
     state,
@@ -116,9 +99,6 @@ export function buildBuilderStylesPane(options = {}) {
     defaultStyles: parseCsvOrArray(defaultStyles, FALLBACK_STYLES),
   };
   let ignoreNext = false;
-
-
-
   function markLocalWrite() {
     ignoreNext = true;
     setTimeout(() => {
@@ -140,3 +120,4 @@ export function buildBuilderStylesPane(options = {}) {
     },
   };
 }
+

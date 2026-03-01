@@ -1,19 +1,11 @@
 import { parseCsvOrArray } from '../utils/parse.js';
-
 const DEFAULT_TEXTAREA_ROWS = 20;
 const DEFAULT_STYLES = ['Professional', 'Friendly', 'Direct', 'Concise'];
-
-
-
-
 function toTitle(label) {
   return String(label || '')
     .replace(/_/g, ' ')
     .replace(/\b\w/g, (c) => c.toUpperCase());
 }
-
-
-
 
 
 function buildSchema(profile = {}) {
@@ -35,9 +27,6 @@ function buildSchema(profile = {}) {
     };
   });
 }
-
-
-
 
 
 function renderForm(node, profile, opts) {
@@ -90,19 +79,16 @@ function renderForm(node, profile, opts) {
 }
 
 
-
 /** Gets get profile. */
-
-
 function getProfile(state, stateKey) {
   if (!state || typeof state.get !== 'function') return null;
   return state.get(stateKey);
 }
 
 
-
-
-
+/**
+ * buildGeneratorFormPane.
+ */
 export function buildGeneratorFormPane(options = {}) {
   const {
     state = null,
@@ -114,9 +100,6 @@ export function buildGeneratorFormPane(options = {}) {
   const node = document.createElement('div');
   node.className = 'pane-generator-form';
   const resolvedStyles = parseCsvOrArray(defaultStyles, DEFAULT_STYLES);
-
-
-
   function renderFromState() {
     const profile = getProfile(state, stateKey);
     if (!profile) return;
@@ -139,3 +122,4 @@ export function buildGeneratorFormPane(options = {}) {
     },
   };
 }
+

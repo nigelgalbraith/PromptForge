@@ -1,8 +1,4 @@
 const DEFAULT_INTRO_KEY = 'main';
-
-
-
-
 function resolveIntroHtml(introKey) {
   const key = introKey || DEFAULT_INTRO_KEY;
   if (!window.INTRO_TEXT || !window.INTRO_TEXT[key]) {
@@ -12,13 +8,10 @@ function resolveIntroHtml(introKey) {
 }
 
 
-
-
-
 function noop() {}
-
-
-
+/**
+ * buildIntroPane.
+ */
 export function buildIntroPane(options = {}) {
   const { introKey = DEFAULT_INTRO_KEY } = options;
   const node = document.createElement('div');
@@ -29,3 +22,4 @@ export function buildIntroPane(options = {}) {
     destroy: noop,
   };
 }
+

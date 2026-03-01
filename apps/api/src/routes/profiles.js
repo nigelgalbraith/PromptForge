@@ -1,23 +1,20 @@
 import express from 'express';
 import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-
 export const profilesRouter = express.Router();
-
 const PROFILE_DIR = process.env.PROFILE_DIR || '/data/profiles';
 const OLLAMA_BASE_URL =
   process.env.OLLAMA_BASE_URL || 'http://host.docker.internal:11434';
 const LOCALAI_BASE_URL =
   process.env.LOCALAI_BASE_URL || 'http://localai:8080';
-
 const SAFE_SEGMENT_RE = /^[a-zA-Z0-9._-]+$/;
-
 function isSafeSegment(segment) {
   if (typeof segment !== 'string') return false;
   if (!segment) return false;
   if (segment === '.' || segment === '..') return false;
   return SAFE_SEGMENT_RE.test(segment);
 }
+
 
 function parseProfileRelPath(relPath) {
   if (typeof relPath !== 'string') {
@@ -46,11 +43,11 @@ function parseProfileRelPath(relPath) {
   return { ai, model, file, rel };
 }
 
+
 function resolveProfilePath(relPath) {
   const { ai, model, file } = parseProfileRelPath(relPath);
   return path.join(PROFILE_DIR, ai, model, file);
 }
-
 profilesRouter.post('/profiles/save', async (req, res) => {
   try {
     const { rel: name } = parseProfileRelPath(req.body?.name);
@@ -67,7 +64,6 @@ profilesRouter.post('/profiles/save', async (req, res) => {
     return res.status(500).json({ error: 'Failed to save profile' });
   }
 });
-
 profilesRouter.get('/profiles/list', async (_req, res) => {
   try {
     await mkdir(PROFILE_DIR, { recursive: true });
@@ -100,7 +96,6 @@ profilesRouter.get('/profiles/list', async (_req, res) => {
     return res.status(500).json({ error: 'Failed to list profiles' });
   }
 });
-
 profilesRouter.get('/profiles/models', async (_req, res) => {
   try {
     const response = await fetch(`${OLLAMA_BASE_URL}/api/tags`);
@@ -109,7 +104,6 @@ profilesRouter.get('/profiles/models', async (_req, res) => {
     }
     const data = await response.json();
     const ollama = (data.models || []).map((m) => m.name);
-
     let localai = [];
     try {
       const localResponse = await fetch(`${LOCALAI_BASE_URL}/v1/models`);
@@ -122,14 +116,12 @@ profilesRouter.get('/profiles/models', async (_req, res) => {
     } catch {
       // keep localai empty if unavailable
     }
-
     return res.json({ ollama, localai });
   } catch (err) {
     console.error('Model fetch error:', err);
     return res.status(500).json({ error: 'Model fetch failed' });
   }
 });
-
 profilesRouter.get('/profiles/:name', async (req, res) => {
   try {
     const { rel: name } = parseProfileRelPath(req.params?.name);
@@ -142,3 +134,4 @@ profilesRouter.get('/profiles/:name', async (req, res) => {
     return res.status(500).json({ error: 'Failed to read profile' });
   }
 });
+

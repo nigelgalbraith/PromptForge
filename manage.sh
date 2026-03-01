@@ -1,6 +1,5 @@
 #!/usr/bin/env bash
 set -euo pipefail
-
 MENU='
 === Docker Manager ===
 1) Start containers
@@ -12,11 +11,11 @@ MENU='
 7) Show logs
 8) Exit
 '
-
 # Return success if containers are running, fail if not
 check_docker() {
   docker compose ps --format json 2>/dev/null | grep -q '"State":"running"'
 }
+
 
 # Start containers
 start_docker() {
@@ -25,6 +24,7 @@ start_docker() {
   echo "Containers started."
 }
 
+
 # Stop containers
 stop_docker() {
   echo "Stopping containers..."
@@ -32,11 +32,13 @@ stop_docker() {
   echo "Containers stopped."
 }
 
+
 # Show status
 status_docker() {
   echo "Container status:"
   docker compose ps
 }
+
 
 # Logs (Ctrl+C to exit)
 logs_docker() {
@@ -44,19 +46,18 @@ logs_docker() {
   exec docker compose logs -f
 }
 
+
 # Rebuild containers (no cached layers)
 rebuild_docker() {
   echo "Stopping containers (if running)..."
   docker compose down
-
   echo "Rebuilding images (no cache)..."
   docker compose build --no-cache
-
   echo "Starting containers..."
   docker compose up -d
-
   echo "Rebuild complete."
 }
+
 
 # Rebuild containers (no cached layers)
 force_recreate_docker() {
@@ -70,7 +71,6 @@ main() {
   while true; do
     printf "%s\n" "$MENU"
     read -rp "Choose: " choice
-
     case "$choice" in
       1)
         if check_docker; then
@@ -99,9 +99,7 @@ main() {
       8) exit 0 ;;
       *) echo "Invalid option" ;;
     esac
-
     echo
   done
 }
-
 main

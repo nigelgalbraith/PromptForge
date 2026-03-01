@@ -1,19 +1,11 @@
 import { DEFAULT_STATE_KEY, ensureProfileState } from '../core/profileState.js';
 import { parseCsvOrArray } from '../utils/parse.js';
-
 const DEFAULT_DEFAULT_FIELDS = ['applicant', 'role'];
-
-
-
-
 function setForm(state, stateKey, nextForm) {
   const st = ensureProfileState(state, stateKey);
   st.form = nextForm || {};
   state.set(stateKey, st);
 }
-
-
-
 
 
 function render(node, state, cfg, markLocalWrite) {
@@ -37,9 +29,6 @@ function render(node, state, cfg, markLocalWrite) {
   section.appendChild(rowsWrap);
   section.appendChild(actions);
   node.appendChild(section);
-
-
-
   function readCurrentFormFromDOM() {
     const out = {};
     const blocks = rowsWrap.querySelectorAll('.form-field-block');
@@ -52,16 +41,10 @@ function render(node, state, cfg, markLocalWrite) {
     });
     return out;
   }
-
-
-
   function commitDOMToState() {
     markLocalWrite();
     setForm(state, cfg.stateKey, readCurrentFormFromDOM());
   }
-
-
-
   function addFieldRow(key, val) {
     const block = document.createElement('div');
     block.className = 'group form-field-block';
@@ -92,9 +75,6 @@ function render(node, state, cfg, markLocalWrite) {
     valInput.dataset.role = 'val';
     valRow.appendChild(vLab);
     valRow.appendChild(valInput);
-
-
-
     function onAnyInput() {
       commitDOMToState();
     }
@@ -128,9 +108,9 @@ function render(node, state, cfg, markLocalWrite) {
 }
 
 
-
-
-
+/**
+ * buildBuilderFormPane.
+ */
 export function buildBuilderFormPane(options = {}) {
   const {
     state,
@@ -145,9 +125,6 @@ export function buildBuilderFormPane(options = {}) {
   const node = document.createElement('div');
   node.className = 'pane-builder-form';
   let ignoreNext = false;
-
-
-
   function markLocalWrite() {
     ignoreNext = true;
     setTimeout(() => {
@@ -174,3 +151,4 @@ export function buildBuilderFormPane(options = {}) {
     },
   };
 }
+

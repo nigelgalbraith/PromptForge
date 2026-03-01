@@ -2,9 +2,7 @@ import express from 'express';
 import { providers } from '../config/providers.js';
 import { httpProviders } from '../config/provider_http.js';
 import { generateWithHTTP } from '../providers/http_generic.js';
-
 export const generateRouter = express.Router();
-
 /** Handles GET /api/ health checks. */
 function handleApiRoot(_req, res) {
   return res.json({ status: 'ok' });
@@ -36,6 +34,6 @@ async function handleGenerate(req, res) {
     return res.status(502).json({ error: error instanceof Error ? error.message : 'Provider call failed' });
   }
 }
-
 generateRouter.post('/generate', handleGenerate);
 generateRouter.get('/', handleApiRoot);
+

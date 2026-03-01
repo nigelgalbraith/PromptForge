@@ -1,6 +1,6 @@
-
-
-
+/**
+ * el.
+ */
 export function el(tag, props = {}, ...children) {
   const node = document.createElement(tag);
   const { className, text, html, attrs, on } = props;
@@ -32,19 +32,20 @@ export function el(tag, props = {}, ...children) {
 }
 
 
-
-
-
+/**
+ * clear.
+ */
 export function clear(node) {
   if (!node) return;
   node.replaceChildren();
 }
 
 
-
-
-
+/**
+ * button.
+ */
 export function button(props = {}) {
   const { attrs = {}, ...rest } = props;
   return el('button', { ...rest, attrs: { type: 'button', ...attrs } });
 }
+

@@ -1,13 +1,7 @@
 // Create a small in-memory event bus for page-local communication.
-
 /** Creates create event bus. */
-
-
 export function createEventBus() {
   const listeners = Object.create(null);
-
-
-
   function on(eventName, handler) {
     if (!eventName || typeof handler !== 'function') return null;
     const name = String(eventName);
@@ -19,9 +13,6 @@ export function createEventBus() {
       if (idx >= 0) list.splice(idx, 1);
     };
   }
-
-
-
   function emit(eventName, payload) {
     if (!eventName) return;
     const name = String(eventName);
@@ -36,9 +27,6 @@ export function createEventBus() {
       }
     });
   }
-
-
-
   function clear() {
     Object.keys(listeners).forEach((name) => {
       delete listeners[name];
@@ -46,3 +34,4 @@ export function createEventBus() {
   }
   return { on, emit, clear };
 }
+

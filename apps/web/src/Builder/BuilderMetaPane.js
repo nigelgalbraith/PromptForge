@@ -1,28 +1,17 @@
 import { DEFAULT_STATE_KEY, ensureProfileState } from '../core/profileState.js';
-
 const FALLBACK_TEMP = 0.3;
 const FALLBACK_PROVIDER = 'ollama';
 const MODES = ['template', 'llm'];
-
-
-
-
 function parseTemp(raw, fallback) {
   const n = Number(raw);
   return Number.isNaN(n) ? fallback : n;
 }
 
 
-
-
-
 function setDisabled(el, disabled) {
   el.disabled = !!disabled;
   el.classList.toggle('is-disabled', !!disabled);
 }
-
-
-
 
 
 function normalizeModels(raw) {
@@ -44,9 +33,6 @@ function normalizeModels(raw) {
 }
 
 
-
-
-
 function resolveProvider(modelsByProvider, wantedProvider) {
   const providers = Object.keys(modelsByProvider || {});
   const wantedRaw = String(wantedProvider || '').trim();
@@ -61,9 +47,6 @@ function resolveProvider(modelsByProvider, wantedProvider) {
 }
 
 
-
-
-
 function resolveModel(modelsByProvider, provider, wantedModel) {
   const list = (modelsByProvider && modelsByProvider[String(provider || '').toLowerCase()]) || [];
   const wanted = String(wantedModel || '').trim();
@@ -73,9 +56,6 @@ function resolveModel(modelsByProvider, provider, wantedModel) {
   }
   return list[0] || '';
 }
-
-
-
 
 
 function render(node, state, cfg, markLocalWrite) {
@@ -152,9 +132,6 @@ function render(node, state, cfg, markLocalWrite) {
   section.appendChild(promptLab);
   section.appendChild(promptArea);
   node.appendChild(section);
-
-
-
   function renderProviderOptions(selectedProvider) {
     const providers = Object.keys(cfg.modelsByProvider || {});
     const resolvedProvider = resolveProvider(cfg.modelsByProvider, selectedProvider);
@@ -177,9 +154,6 @@ function render(node, state, cfg, markLocalWrite) {
     defaultsProviderSel.value = resolvedProvider;
     defaultsProviderSel.disabled = !defaultsProviderSel.options.length;
   }
-
-
-
   function renderModelOptions(provider, selectedModel) {
     const list = (cfg.modelsByProvider && cfg.modelsByProvider[String(provider || '').toLowerCase()]) || [];
     const resolvedModel = resolveModel(cfg.modelsByProvider, provider, selectedModel);
@@ -197,9 +171,6 @@ function render(node, state, cfg, markLocalWrite) {
     defaultsModelSel.value = resolvedModel;
     defaultsModelSel.disabled = !defaultsModelSel.options.length;
   }
-
-
-
   function syncFromDOM() {
     const st = ensureProfileState(state, cfg.stateKey);
     st.mode = selMode.value === 'llm' ? 'llm' : 'template';
@@ -232,9 +203,6 @@ function render(node, state, cfg, markLocalWrite) {
     markLocalWrite();
     state.set(cfg.stateKey, st);
   }
-
-
-
   function onProviderChange() {
     renderModelOptions(defaultsProviderSel.value, defaultsModelSel.value);
     syncFromDOM();
@@ -270,6 +238,10 @@ function render(node, state, cfg, markLocalWrite) {
   syncFromDOM();
 }
 
+
+/**
+ * buildBuilderMetaPane.
+ */
 export function buildBuilderMetaPane(options = {}) {
   const {
     state,
@@ -292,25 +264,16 @@ export function buildBuilderMetaPane(options = {}) {
     modelsRawByProvider: {},
   };
   let ignoreNext = false;
-
-
-
   function markLocalWrite() {
     ignoreNext = true;
     setTimeout(() => {
       ignoreNext = false;
     }, 0);
   }
-
-
-
   function renderNow() {
     render(node, state, cfg, markLocalWrite);
   }
   renderNow();
-
-
-
   async function loadModels() {
     try {
       const res = await fetch(modelsUrl);
@@ -343,3 +306,4 @@ export function buildBuilderMetaPane(options = {}) {
     },
   };
 }
+

@@ -1,8 +1,4 @@
 import { DEFAULT_STATE_KEY, ensureProfileState } from '../core/profileState.js';
-
-
-
-
 function syncFromDOM(rowsWrap, profileState, state, stateKey) {
   const rows = rowsWrap.querySelectorAll('.snippet-row');
   const out = [];
@@ -19,9 +15,6 @@ function syncFromDOM(rowsWrap, profileState, state, stateKey) {
   profileState.snippets = out;
   state.set(stateKey, profileState);
 }
-
-
-
 
 
 function snippetRow(rowsWrap, profileState, state, stateKey, data, markLocalWrite) {
@@ -88,9 +81,6 @@ function snippetRow(rowsWrap, profileState, state, stateKey, data, markLocalWrit
 }
 
 
-
-
-
 function render(node, state, stateKey, opts, markLocalWrite) {
   const titleText = opts.title || 'Snippets';
   const profileState = ensureProfileState(state, stateKey);
@@ -133,9 +123,9 @@ function render(node, state, stateKey, opts, markLocalWrite) {
 }
 
 
-
-
-
+/**
+ * buildBuilderSnippetsPane.
+ */
 export function buildBuilderSnippetsPane(options = {}) {
   const {
     state,
@@ -150,9 +140,6 @@ export function buildBuilderSnippetsPane(options = {}) {
   node.className = 'pane-builder-snippets';
   const paneOptions = { title };
   let ignoreNext = false;
-
-
-
   function markLocalWrite() {
     ignoreNext = true;
     setTimeout(() => {
@@ -174,3 +161,4 @@ export function buildBuilderSnippetsPane(options = {}) {
     },
   };
 }
+

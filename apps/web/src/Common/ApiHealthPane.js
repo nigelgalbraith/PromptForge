@@ -1,9 +1,6 @@
-
-
 function isApiHealthy(payload) {
   return Boolean(payload && payload.status === 'ok');
 }
-
 
 
 function buildStatusMessage(ok, details) {
@@ -11,7 +8,6 @@ function buildStatusMessage(ok, details) {
   if (details) return `API status: Disconnected (${details})`;
   return 'API status: Disconnected';
 }
-
 
 
 function setHealthState(statusEl, ok, details) {
@@ -26,7 +22,6 @@ function setHealthState(statusEl, ok, details) {
 }
 
 
-
 function formatHttpFailure(res) {
   const status = Number(res && res.status ? res.status : 0);
   const text = String(res && res.statusText ? res.statusText : '').trim();
@@ -36,7 +31,6 @@ function formatHttpFailure(res) {
 }
 
 
-
 function formatErrorMessage(error) {
   if (!error) return 'Request failed';
   const msg = String(error && error.message ? error.message : error).trim();
@@ -44,8 +38,9 @@ function formatErrorMessage(error) {
 }
 
 
-
-
+/**
+ * buildApiHealthPane.
+ */
 export function buildApiHealthPane(options = {}) {
   const { healthUrl = '/api/', events = null } = options;
   const node = document.createElement('div');
@@ -99,3 +94,4 @@ export function buildApiHealthPane(options = {}) {
     },
   };
 }
+

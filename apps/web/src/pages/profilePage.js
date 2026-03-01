@@ -12,11 +12,11 @@ import { createEventBus } from '../core/eventBus.js';
 import { createPageLifecycle } from '../core/pageLifecycle.js';
 import { applySavedTheme, initThemeToggle } from '../utils/theme.js';
 import '../../snippets/intro.js';
-
 const PROFILE_STATE_KEY = 'TEXT_PROFILE';
-
 let pageLifecycle = null;
-
+/**
+ * destroyPage.
+ */
 export function destroyPage() {
   if (!pageLifecycle) return;
   pageLifecycle.destroy();
@@ -62,7 +62,6 @@ export function initPage() {
       }
     },
   };
-
   // ---- Status Ticker Pane ----
   const tickerPane = buildStatusTickerPane({
     messagesUrl: 'profiles/messages.json',
@@ -73,13 +72,11 @@ export function initPage() {
   });
   main.appendChild(tickerPane.node);
   pageLifecycle.add(() => tickerPane.destroy());
-
   // ---- Intro Pane ----
   const introPane = buildIntroPane({ introKey: 'profile' });
   introPane.node.classList.add('intro-text');
   main.appendChild(introPane.node);
   pageLifecycle.add(() => introPane.destroy());
-
   // ---- Profile Loader Pane ----
   const loaderPane = buildProfileLoaderPane({
     title: 'Profiles',
@@ -89,7 +86,6 @@ export function initPage() {
   });
   main.appendChild(loaderPane.node);
   pageLifecycle.add(() => loaderPane.destroy());
-
   // ---- Builder Meta Pane ----
   const builderMetaPane = buildBuilderMetaPane({
     state: sharedState,
@@ -99,7 +95,6 @@ export function initPage() {
   });
   main.appendChild(builderMetaPane.node);
   pageLifecycle.add(() => builderMetaPane.destroy());
-
   // ---- Builder Form Pane ----
   const builderFormPane = buildBuilderFormPane({
     state: sharedState,
@@ -109,7 +104,6 @@ export function initPage() {
   });
   main.appendChild(builderFormPane.node);
   pageLifecycle.add(() => builderFormPane.destroy());
-
   // ---- Builder Checklist Pane ----
   const builderChecklistPane = buildBuilderChecklistPane({
     state: sharedState,
@@ -119,7 +113,6 @@ export function initPage() {
   });
   main.appendChild(builderChecklistPane.node);
   pageLifecycle.add(() => builderChecklistPane.destroy());
-
   // ---- Builder Snippets Pane ----
   const builderSnippetsPane = buildBuilderSnippetsPane({
     state: sharedState,
@@ -129,7 +122,6 @@ export function initPage() {
   });
   main.appendChild(builderSnippetsPane.node);
   pageLifecycle.add(() => builderSnippetsPane.destroy());
-
   // ---- Builder Styles Pane ----
   const builderStylesPane = buildBuilderStylesPane({
     state: sharedState,
@@ -139,7 +131,6 @@ export function initPage() {
   });
   main.appendChild(builderStylesPane.node);
   pageLifecycle.add(() => builderStylesPane.destroy());
-
   // ---- Export Pane ----
   const exportPane = buildExportPane({
     title: 'Export Profile',
@@ -161,5 +152,5 @@ export function initPage() {
   pageLifecycle.add(() => exportPane.destroy());
   initThemeToggle();
 }
-
 initPage();
+

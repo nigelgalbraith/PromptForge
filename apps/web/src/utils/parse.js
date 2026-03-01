@@ -1,7 +1,7 @@
 // Parse comma-delimited strings or arrays into a normalized string array.
-
-
-
+/**
+ * parseCsvOrArray.
+ */
 export function parseCsvOrArray(raw, fallback = []) {
   if (Array.isArray(raw)) {
     return raw.map((s) => String(s).trim()).filter(Boolean);
@@ -11,3 +11,4 @@ export function parseCsvOrArray(raw, fallback = []) {
   }
   return Array.isArray(fallback) ? fallback : [];
 }
+

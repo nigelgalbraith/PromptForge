@@ -2,16 +2,11 @@ const DEFAULT_TICKER_MESSAGES = [
   'Tip: Load a profile JSON to get started.',
   'You can always export your current setup.',
 ];
-
 const TYPING_DELAY = 70;
 const HOLD_DELAY = 4000;
 const BETWEEN_DELAY = 800;
 const INITIAL_DELAY = 600;
 const TEMP_MESSAGE_MS = 5000;
-
-
-
-
 function loadTickerMessages(url) {
   if (!url) return Promise.resolve(DEFAULT_TICKER_MESSAGES.slice());
   return fetch(url)
@@ -23,7 +18,6 @@ function loadTickerMessages(url) {
     })
     .catch(() => DEFAULT_TICKER_MESSAGES.slice());
 }
-
 class StatusTicker {
   constructor(el, messages, opts = {}) {
     this.el = el;
@@ -102,9 +96,6 @@ class StatusTicker {
 }
 
 
-
-
-
 function wireTickerEvents({ events, tickerId, status, getTicker }) {
   if (!events || typeof events.on !== 'function') {
     return [];
@@ -133,9 +124,6 @@ function wireTickerEvents({ events, tickerId, status, getTicker }) {
 }
 
 
-
-
-
 function destroyTicker(ticker, offFns) {
   try {
     if (ticker && typeof ticker.stop === 'function') {
@@ -152,9 +140,9 @@ function destroyTicker(ticker, offFns) {
 }
 
 
-
-
-
+/**
+ * buildStatusTickerPane.
+ */
 export function buildStatusTickerPane(options = {}) {
   const {
     messagesUrl = 'messages.json',
@@ -196,3 +184,4 @@ export function buildStatusTickerPane(options = {}) {
     },
   };
 }
+

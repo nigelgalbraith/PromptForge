@@ -1,8 +1,6 @@
 export const DEFAULT_STATE_KEY = 'TEXT_PROFILE';
 const DEFAULT_PROVIDER = 'ollama';
 const DEFAULT_MODEL = 'deepseek-coder:6.7b';
-
-
 /** Creates a new empty profile with default provider metadata. */
 export function createEmptyProfile() {
   return {
@@ -34,6 +32,9 @@ export function setProfile(state, profile, stateKey = DEFAULT_STATE_KEY) {
 }
 
 
+/**
+ * normalizeProfile.
+ */
 export function normalizeProfile(profile) {
   const normalized = profile && typeof profile === 'object' ? profile : createEmptyProfile();
   if (!normalized.form || typeof normalized.form !== 'object') normalized.form = {};
@@ -79,3 +80,4 @@ export function ensureProfileState(state, stateKey = DEFAULT_STATE_KEY) {
   }
   return profile;
 }
+

@@ -1,12 +1,7 @@
 import { notifyTicker } from '../utils/ticker.js';
 import { button, el } from '../utils/dom.js';
-
 const DEFAULT_PIPER_BASE = '/piper';
 const DEFAULT_VOICE_ID = 'en_US-amy-low';
-
-
-
-
 function cleanText(text) {
   return String(text || '')
     .replace(/\r\n/g, '\n')
@@ -15,15 +10,9 @@ function cleanText(text) {
 }
 
 
-
-
-
 function makeSpeaker() {
   let currentAudio = null;
-
 /** Stops stop. */
-
-
   function stop() {
     if (currentAudio) {
       try {
@@ -34,9 +23,6 @@ function makeSpeaker() {
     }
     currentAudio = null;
   }
-
-
-
   function speak(text, base, voiceId) {
     if (!text || !text.trim()) return Promise.resolve(null);
     const resolvedBase = base || DEFAULT_PIPER_BASE;
@@ -63,9 +49,9 @@ function makeSpeaker() {
 }
 
 
-
-
-
+/**
+ * buildGeneratorPiperPane.
+ */
 export function buildGeneratorPiperPane(options = {}) {
   const {
     piperBase = DEFAULT_PIPER_BASE,
@@ -103,16 +89,10 @@ export function buildGeneratorPiperPane(options = {}) {
   let isSpeaking = false;
   let dotTimer = null;
   let currentAudio = null;
-
-
-
   function setFlash(msg) {
     flashDiv.textContent = msg || '';
   }
-
 /** Starts start dots. */
-
-
   function startDots(baseMsg) {
     if (dotTimer) clearInterval(dotTimer);
     let dots = 0;
@@ -121,10 +101,7 @@ export function buildGeneratorPiperPane(options = {}) {
       setFlash(`${baseMsg}${'.'.repeat(dots)}`);
     }, 350);
   }
-
 /** Stops stop dots. */
-
-
   function stopDots(msg) {
     if (dotTimer) {
       clearInterval(dotTimer);
@@ -132,9 +109,6 @@ export function buildGeneratorPiperPane(options = {}) {
     }
     if (msg) setFlash(msg);
   }
-
-
-
   function resetUI(doneMsg, tickerMsg) {
     isSpeaking = false;
     btnSay.disabled = false;
@@ -143,9 +117,6 @@ export function buildGeneratorPiperPane(options = {}) {
     stopDots(doneMsg);
     if (tickerMsg) notifyTicker(tickerController, tickerMsg, 2500);
   }
-
-
-
   function onAudioDone() {
     if (currentAudio) {
       try {
@@ -157,9 +128,6 @@ export function buildGeneratorPiperPane(options = {}) {
     }
     resetUI('Done.', tickerMsgStopped);
   }
-
-
-
   function onSpeakClick() {
     if (isSpeaking) {
       setFlash('Already speaking…');
@@ -194,9 +162,6 @@ export function buildGeneratorPiperPane(options = {}) {
         notifyTicker(tickerController, tickerMsgError, 3500);
       });
   }
-
-
-
   function onStopClick() {
     speaker.stop();
     if (currentAudio) {
@@ -225,3 +190,4 @@ export function buildGeneratorPiperPane(options = {}) {
     },
   };
 }
+

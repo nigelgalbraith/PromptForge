@@ -1,13 +1,14 @@
 const NAV_ITEMS = [
   { key: 'generator', href: 'index.html', label: 'Generator', external: false },
   { key: 'profile', href: 'profile.html', label: 'Profile Builder', external: false },
+  { key: 'batch', href: 'batch.html', label: 'Batch Runner', external: false },
   { key: 'localai', href: 'http://127.0.0.1:8080/', label: 'Local AI', external: true },
   { key: 'openwebui', href: 'http://127.0.0.1:3001/', label: 'Ollama UI', external: true }
 ];
-
 // Build the shared app shell for generator/profile pages.
-
-
+/**
+ * buildAppShell.
+ */
 export function buildAppShell(config = {}) {
   const {
     appRoot,
@@ -50,16 +51,13 @@ export function buildAppShell(config = {}) {
     const link = document.createElement('a');
     link.href = item.href;
     link.textContent = item.label;
-
     if (item.key === activeNavKey) {
       link.setAttribute('aria-current', 'page');
     }
-
     if (item.external) {
       link.target = '_blank';
       link.rel = 'noopener noreferrer';
     }
-
     navLinks.appendChild(link);
     navLinkNodes[item.key] = link;
   });
@@ -81,3 +79,4 @@ export function buildAppShell(config = {}) {
     themeButton,
   };
 }
+

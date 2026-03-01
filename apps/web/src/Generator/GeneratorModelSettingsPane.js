@@ -1,13 +1,10 @@
 import { DEFAULT_STATE_KEY, ensureProfileState } from '../core/profileState.js';
-
 const FALLBACK_MODELS = {
   ollama: ['deepseek-coder:6.7b', 'codellama:13b'],
   openai: ['gpt-dummy-1', 'gpt-dummy-2'],
   gemini: ['gemini-dummy-1'],
   anthropic: ['claude-dummy-1'],
 };
-
-
 
 
 function normalizeModels(raw) {
@@ -30,9 +27,6 @@ function normalizeModels(raw) {
 }
 
 
-
-
-
 function resolveDefaults(st, modelsByProvider) {
   const providers = Object.keys(modelsByProvider);
   const fallbackProvider = providers[0] || 'ollama';
@@ -46,9 +40,9 @@ function resolveDefaults(st, modelsByProvider) {
 }
 
 
-
-
-
+/**
+ * buildGeneratorModelSettingsPane.
+ */
 export function buildGeneratorModelSettingsPane(options = {}) {
   const {
     state,
@@ -87,18 +81,12 @@ export function buildGeneratorModelSettingsPane(options = {}) {
   node.appendChild(section);
   let ignoreNext = false;
   let modelsByProvider = { ...FALLBACK_MODELS };
-
-
-
   function markLocalWrite() {
     ignoreNext = true;
     setTimeout(() => {
       ignoreNext = false;
     }, 0);
   }
-
-
-
   function renderSelectOptions() {
     const providers = Object.keys(modelsByProvider);
     providerSel.innerHTML = '';
@@ -109,9 +97,6 @@ export function buildGeneratorModelSettingsPane(options = {}) {
       providerSel.appendChild(opt);
     });
   }
-
-
-
   function renderModelOptions(provider) {
     const models = modelsByProvider[String(provider || '').toLowerCase()] || [];
     modelSel.innerHTML = '';
@@ -122,9 +107,6 @@ export function buildGeneratorModelSettingsPane(options = {}) {
       modelSel.appendChild(opt);
     });
   }
-
-
-
   function syncDOMToState() {
     const st = ensureProfileState(state, stateKey);
     const provider = String(providerSel.value || '').toLowerCase();
@@ -136,9 +118,6 @@ export function buildGeneratorModelSettingsPane(options = {}) {
     markLocalWrite();
     state.set(stateKey, st);
   }
-
-
-
   function renderFromState() {
     const st = ensureProfileState(state, stateKey);
     renderSelectOptions();
@@ -156,9 +135,6 @@ export function buildGeneratorModelSettingsPane(options = {}) {
   modelSel.addEventListener('change', syncDOMToState);
   renderFromState();
   let isDestroyed = false;
-
-
-
   async function loadModels() {
     try {
       const res = await fetch(modelsUrl);
@@ -189,3 +165,4 @@ export function buildGeneratorModelSettingsPane(options = {}) {
     },
   };
 }
+

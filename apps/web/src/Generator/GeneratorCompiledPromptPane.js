@@ -1,10 +1,8 @@
 import { buildCompiledPrompt } from './GeneratorPreviewPane.js';
-
 const FLASH_AUTOHIDE_MS = 1500;
-
-
-
-
+/**
+ * buildGeneratorCompiledPromptPane.
+ */
 export function buildGeneratorCompiledPromptPane(options = {}) {
   const {
     state = null,
@@ -39,17 +37,11 @@ export function buildGeneratorCompiledPromptPane(options = {}) {
   section.appendChild(flashDiv);
   section.appendChild(text);
   node.appendChild(section);
-
 /** Gets get profile. */
-
-
   function getProfile() {
     if (!state || typeof state.get !== 'function') return {};
     return state.get(stateKey) || {};
   }
-
-
-
   function renderCompiled() {
     const compiled = buildCompiledPrompt({
       profile: getProfile(),
@@ -59,9 +51,6 @@ export function buildGeneratorCompiledPromptPane(options = {}) {
     });
     text.textContent = compiled || '';
   }
-
-
-
   function flash(msg) {
     flashDiv.textContent = msg || '';
     flashDiv.classList.add('show');
@@ -70,9 +59,6 @@ export function buildGeneratorCompiledPromptPane(options = {}) {
       flashDiv.textContent = '';
     }, FLASH_AUTOHIDE_MS);
   }
-
-
-
   function onCopyClick() {
     const compiled = text.textContent || '';
     if (!compiled) {
@@ -92,9 +78,6 @@ export function buildGeneratorCompiledPromptPane(options = {}) {
     }
     flash('Clipboard not available');
   }
-
-
-
   function onSourceChange() {
     renderCompiled();
   }
@@ -142,3 +125,4 @@ export function buildGeneratorCompiledPromptPane(options = {}) {
     },
   };
 }
+

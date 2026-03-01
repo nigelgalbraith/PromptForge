@@ -1,8 +1,4 @@
 const FLASH_DURATION = 1200;
-
-
-
-
 function flash(flashDiv, msg, timeout) {
   if (!flashDiv) return;
   flashDiv.textContent = msg || '';
@@ -11,9 +7,6 @@ function flash(flashDiv, msg, timeout) {
     flashDiv.classList.remove('show');
   }, timeout || FLASH_DURATION);
 }
-
-
-
 
 
 function renderOneItem(item, list) {
@@ -55,9 +48,6 @@ function renderOneItem(item, list) {
 }
 
 
-
-
-
 function render(node, profile, defaultTitle) {
   node.innerHTML = '';
   const section = document.createElement('section');
@@ -82,9 +72,6 @@ function render(node, profile, defaultTitle) {
   const flashDiv = document.createElement('div');
   flashDiv.className = 'flash';
   const items = Array.isArray(profile && profile.snippets) ? profile.snippets : [];
-
-
-
   function rerenderList() {
     list.innerHTML = '';
     items.forEach((it) => {
@@ -116,19 +103,16 @@ function render(node, profile, defaultTitle) {
 }
 
 
-
 /** Gets get profile. */
-
-
 function getProfile(state, stateKey) {
   if (!state || typeof state.get !== 'function') return null;
   return state.get(stateKey);
 }
 
 
-
-
-
+/**
+ * buildGeneratorSnippetsPane.
+ */
 export function buildGeneratorSnippetsPane(options = {}) {
   const {
     state = null,
@@ -138,9 +122,6 @@ export function buildGeneratorSnippetsPane(options = {}) {
   } = options;
   const node = document.createElement('div');
   node.className = 'pane-generator-snippets';
-
-
-
   function rerenderFromState() {
     const profile = getProfile(state, stateKey);
     if (!profile) {
@@ -163,3 +144,4 @@ export function buildGeneratorSnippetsPane(options = {}) {
     },
   };
 }
+
