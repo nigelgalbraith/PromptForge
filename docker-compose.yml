@@ -15,7 +15,8 @@ services:
       - OLLAMA_BASE_URL=http://ollama:11434
       - LOCALAI_BASE_URL=http://localai:8080
     volumes:
-      - ./data/profiles:/data/profiles
+      - ./data:/data
+      - ./profiles:/profiles
     depends_on:
       ollama-init:
         condition: service_completed_successfully

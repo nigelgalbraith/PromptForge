@@ -2,7 +2,7 @@ import express from 'express';
 import { mkdir, readdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 export const profilesRouter = express.Router();
-const PROFILE_DIR = process.env.PROFILE_DIR || '/data/profiles';
+const PROFILE_DIR = process.env.PROFILE_DIR || '/profiles';
 const OLLAMA_BASE_URL =
   process.env.OLLAMA_BASE_URL || 'http://host.docker.internal:11434';
 const LOCALAI_BASE_URL =
